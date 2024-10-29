@@ -4,12 +4,6 @@ export default {
     'node_modules',
     '.git',
     '.next',
-    '.webp',
-    '.png',
-    '.gif',
-    '.jpeg',
-    '.jpg',
     '.ini',
-    '.desktop'
-  ]
+  ],
 }
