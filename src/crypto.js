@@ -1,33 +1,33 @@
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto'
 
+const ALGORITHM = 'aes-256-cbc'
+
 function autoKey(key = undefined) {
   return key ? Buffer.from(key, 'hex') : randomBytes(32)
 }
 
-function encrypt([text], key) {
+function encrypt(text, key) {
   const iv = randomBytes(16)
-  const cipher = createCipheriv('aes-256-gcm', key, iv)
+  const cipher = createCipheriv(ALGORITHM, key, iv)
 
   const encrypted = Buffer.concat([
+    iv,
     cipher.update(text, 'utf-8'),
     cipher.final(),
   ])
 
-  const authTag = cipher.getAuthTag()
 
-  return [
-    iv.toString('hex'),
-    encrypted.toString('hex'),
-    authTag.toString('hex'),
-  ].join(':')
+  return encrypted
 }
 
-function decrypt([iv, content, tag], key) {
-  const decipher = createDecipheriv('aes-256-gcm', key, Buffer.from(iv, 'hex'))
+function decrypt(data, key) {
+  const iv = data.slice(0, 16)
+  const content = data.slice(16)
 
-  decipher.setAuthTag(Buffer.from(tag, 'hex'))
+  const decipher = createDecipheriv(ALGORITHM, key, iv)
+
   const decrypted = Buffer.concat([
-    decipher.update(Buffer.from(content, 'hex')),
+    decipher.update(content),
     decipher.final(),
   ])
 
