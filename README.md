@@ -6,18 +6,18 @@ Command-line based program to encrypt files. Encryption algorithm: AES-256-GCM
 
 - `npm start <path> <option> <key>`
 
-Path:
+**Path:**
 
 The target directory for encryption/decryption
 
-Option:
+**Option:**
 
 - `encrypt`
 - `decrypt`
 
 If the option is encrypt, the key is optional, in which case it will be generated automatically and returned to the terminal
 
-Key:
+**Key:**
 
 Your custom key, or the encryption key in case of decryption
 
@@ -29,7 +29,7 @@ Your custom key, or the encryption key in case of decryption
 npm start ~/Desktop encrypt
 ```
 
-Output:
+Output (auto-key):
 
 ```txt
 bfaa6d2fb79d9c0dfd153f2baf1e2538baa4997b3b98c010c252d5dee6adbbd0
