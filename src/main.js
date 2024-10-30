@@ -1,6 +1,8 @@
 import fs from 'node:fs'
 import * as options from './crypto.js'
 
+const ENCRYPT_EXT = '.bin'
+
 function processAll(files, option, key) {
   const defOption = options[option]
 
@@ -9,12 +11,12 @@ function processAll(files, option, key) {
     const result = defOption(data, key)
     fs.writeFileSync(file, result)
 
-    if (file.includes('.bin')) {
-      fs.renameSync(file, file.replace('.bin', ''))
+    if (file.endsWith(ENCRYPT_EXT)) {
+      fs.renameSync(file, file.slice(0, -ENCRYPT_EXT.length))
       continue
     }
 
-    fs.renameSync(file, `${file}.bin`)
+    fs.renameSync(file, file.concat(ENCRYPT_EXT))
   }
 }
 
