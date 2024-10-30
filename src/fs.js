@@ -8,17 +8,21 @@ function searchFiles(target, excludeQueries = []) {
     const list = fs.readdirSync(dir)
 
     for (const file of list) {
-      const fullpath = path.join(dir, file)
-      const stats = fs.statSync(fullpath)
+      try {
+        const fullpath = path.join(dir, file)
+        const stats = fs.statSync(fullpath)
 
-      if (stats.isDirectory()) {
-        deepSearch(fullpath)
+        if (stats.isDirectory()) {
+          deepSearch(fullpath)
+          continue
+        }
+
+        const isValidFile = excludeQueries.every((q) => !fullpath.includes(q))
+        if (isValidFile) {
+          files.push(fullpath)
+        }
+      } catch (e) {
         continue
-      }
-
-      const isValidFile = excludeQueries.every((q) => !fullpath.includes(q))
-      if (isValidFile) {
-        files.push(fullpath)
       }
     }
   }
