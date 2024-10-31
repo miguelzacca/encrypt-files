@@ -7,11 +7,11 @@ import env from '../env.js'
 const [target, option, key] = process.argv.slice(2)
 
 const defTarget = target.replace('~', os.homedir())
-const files = searchFiles(defTarget, env.excludeFileQueries)
+const files = await searchFiles(defTarget, env.EXCLUDE_FILE_QUERIES)
 const defKey = autoKey(key)
 
 if (option === 'encrypt' && !key) {
   console.log(defKey.toString('hex'))
 }
 
-processAll(files, option, defKey)
+await processAll(files, option, defKey)

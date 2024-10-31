@@ -1,24 +1,19 @@
-import fs from 'node:fs'
+import { promises as fs } from 'node:fs'
 import path from 'node:path'
 
-function searchFiles(target, excludeQueries = []) {
+export async function searchFiles(target, excludeQueries = []) {
   const files = []
 
-  function deepSearch(dir) {
-    const list = fs.readdirSync(dir)
-
+  async function deepSearch(dir) {
+    const list = await fs.readdir(dir, { withFileTypes: true })
     for (const file of list) {
       try {
-        const fullpath = path.join(dir, file)
-        const stats = fs.statSync(fullpath)
-
-        if (stats.isDirectory()) {
-          deepSearch(fullpath)
+        const fullpath = path.join(dir, file.name)
+        if (file.isDirectory()) {
+          await deepSearch(fullpath)
           continue
         }
-
-        const isValidFile = excludeQueries.every((q) => !fullpath.includes(q))
-        if (isValidFile) {
+        if (excludeQueries.every((q) => !fullpath.includes(q))) {
           files.push(fullpath)
         }
       } catch (e) {
@@ -27,8 +22,6 @@ function searchFiles(target, excludeQueries = []) {
     }
   }
 
-  deepSearch(target)
+  await deepSearch(target)
   return files
 }
-
-export { searchFiles }

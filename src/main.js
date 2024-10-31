@@ -1,27 +1,25 @@
-import fs from 'node:fs'
+import { promises as fs } from 'node:fs'
 import * as options from './crypto.js'
+import env from '../env.js'
 
-const ENCRYPT_EXT = '.bin'
-
-function processAll(files, option, key) {
+export async function processAll(files, option, key) {
   const defOption = options[option]
 
-  for (const file of files) {
-    try {
-      const data = fs.readFileSync(file)
-      const result = defOption(data, key)
-      fs.writeFileSync(file, result)
+  await Promise.all(
+    files.map(async (file) => {
+      try {
+        const data = await fs.readFile(file)
+        const result = defOption(data, key)
+        await fs.writeFile(file, result)
 
-      if (file.endsWith(ENCRYPT_EXT)) {
-        fs.renameSync(file, file.slice(0, -ENCRYPT_EXT.length))
-        continue
+        const newFileName = file.endsWith(env.ENCRYPT_EXT)
+          ? file.slice(0, -env.ENCRYPT_EXT.length)
+          : file.concat(env.ENCRYPT_EXT)
+
+        await fs.rename(file, newFileName)
+      } catch (e) {
+        return
       }
-
-      fs.renameSync(file, file.concat(ENCRYPT_EXT))
-    } catch (e) {
-      continue
-    }
-  }
+    }),
+  )
 }
-
-export { processAll }
