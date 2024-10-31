@@ -8,14 +8,17 @@ export async function searchFiles(target, excludeQueries = []) {
     const list = await fs.readdir(dir, { withFileTypes: true })
     for (const file of list) {
       try {
+        if (excludeQueries.some((q) => file.name.includes(q))) {
+          continue
+        }
+
         const fullpath = path.join(dir, file.name)
+
         if (file.isDirectory()) {
           await deepSearch(fullpath)
           continue
         }
-        if (excludeQueries.every((q) => !fullpath.includes(q))) {
-          files.push(fullpath)
-        }
+        files.push(fullpath)
       } catch (e) {
         continue
       }
