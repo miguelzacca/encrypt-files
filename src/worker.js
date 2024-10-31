@@ -1,16 +1,15 @@
 import { promises as fs } from 'node:fs'
-import * as options from './crypto.js'
+import * as options from './encyption.js'
 import env from '../env.js'
 
 process.on('message', async ({ files, option, key }) => {
-  const bufferKey = Buffer.from(key)
   const defOption = options[option]
 
   await Promise.all(
     files.map(async (file) => {
       try {
         const data = await fs.readFile(file)
-        const result = defOption(data, bufferKey)
+        const result = defOption(data, Buffer.from(key))
         await fs.writeFile(file, result)
 
         const newFileName =
