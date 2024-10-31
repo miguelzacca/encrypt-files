@@ -1,6 +1,6 @@
 # encrypt-files
 
-Command-line based program to encrypt files. Encryption algorithm: AES-256-CBC
+Command-line based program to encrypt files. Encryption algorithm: AES-256-CTR
 
 ## API
 

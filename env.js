@@ -1,5 +1,5 @@
 export default {
-  ALGORITHM: 'aes-256-cbc',
+  ALGORITHM: 'aes-256-ctr',
   KEY_LENGTH: 32,
   IV_LENGTH: 16,
   ENCRYPT_EXT: '.bin',
