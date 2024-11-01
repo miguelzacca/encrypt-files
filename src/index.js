@@ -1,5 +1,5 @@
 import os from 'node:os'
-import { autoKey } from './encyption.js'
+import { autoKey } from './encryption.js'
 import { searchFiles } from './files.js'
 import { processWorkers } from './orchestrator.js'
 import env from '../env.js'

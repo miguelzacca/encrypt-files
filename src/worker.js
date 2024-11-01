@@ -1,5 +1,5 @@
 import { promises as fs } from 'node:fs'
-import * as options from './encyption.js'
+import * as options from './encryption.js'
 import env from '../env.js'
 
 process.on('message', async ({ files, option, key }) => {
