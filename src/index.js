@@ -12,7 +12,7 @@ const defTarget = target.replace('~', os.homedir())
 const files = await searchFiles(defTarget, env.EXCLUDE_FILE_QUERIES)
 
 if (option === 'encrypt' && !key) {
-  console.log(defKey.toString('hex'))
+  console.log(defKey.toString('hex'), '\n')
 }
 
-await processWorkers(files, option, defKey)
+processWorkers(files, option, defKey)
