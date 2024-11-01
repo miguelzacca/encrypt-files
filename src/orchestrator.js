@@ -1,9 +1,9 @@
 import { fork } from 'node:child_process'
+import { progressBar } from './utils.js'
 import env from '../env.js'
 
 let totalFiles = 0
 let count = 0
-let startTime = Date.now()
 
 export async function createWorker(files, option, key) {
   return new Promise((res, rej) => {
@@ -11,9 +11,7 @@ export async function createWorker(files, option, key) {
     worker.send({ files, option, key })
 
     worker.on('message', () => {
-      const progress = ((count / totalFiles) * 100).toFixed(2)
-      const time = ((Date.now() - startTime) / 1000).toFixed(2)
-      process.stdout.write(`\r${count++}/${totalFiles} ${progress}% | ${time}s`)
+      progressBar(count++, totalFiles)
     })
 
     worker.on('error', rej)
