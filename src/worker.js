@@ -5,7 +5,7 @@ import env from '../env.js'
 process.on('message', async ({ files, option, key }) => {
   const defOption = options[option]
 
-  const promises = files.map(async (file) => {
+  async function mainProcess(file) {
     try {
       const data = await fs.readFile(file)
       const result = defOption(data, Buffer.from(key))
@@ -21,9 +21,12 @@ process.on('message', async ({ files, option, key }) => {
     } catch (e) {
       return
     }
-  })
+  }
 
-  await Promise.all(promises)
+  for (let i = 0; i < files.length; i += env.PROMISE_CHUNK_SIZE) {
+    const chunk = files.slice(i, i + env.PROMISE_CHUNK_SIZE).map(mainProcess)
+    await Promise.all(chunk)
+  }
 
   process.exit(0)
 })

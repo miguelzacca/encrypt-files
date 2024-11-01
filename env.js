@@ -6,6 +6,7 @@ export default {
   IV_LENGTH: 16,
   ENCRYPT_EXT: '.bin',
   WORKERS_SIZE: os.cpus().length,
+  PROMISE_CHUNK_SIZE: 100,
   EXCLUDE_FILE_QUERIES: [
     'encrypt-files',
     'node_modules',
