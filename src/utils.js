@@ -3,7 +3,7 @@ export function progressBar(completed, total) {
     return `${'█'.repeat(progress)}${' '.repeat(barLength - progress)}`
   }
 
-  const barLength = Math.min(process.stdout.columns - 10, 100)
+  const barLength = Math.min(process.stdout.columns - 20, 100)
   let progress = Math.floor((completed / total) * barLength)
 
   process.stdout.write(

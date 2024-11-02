@@ -17,6 +17,9 @@ if (option === 'encrypt' && !key) {
   console.warn(`[KEY] ${defKey.toString('hex')}\n`)
 }
 
+const startTime = Date.now()
+
 await processWorkers(files, option, defKey)
 
-console.log(`\n\n[LOG] finished\n`)
+const totalTime = ((Date.now() - startTime) / 1000).toFixed(2)
+console.log(`\n\n[LOG] finished in ${totalTime}s\n`)

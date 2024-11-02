@@ -23,7 +23,7 @@ export async function processWorkers(files, option, key) {
   totalFiles = files.length
   const chunkSize = Math.ceil(files.length / env.WORKERS_SIZE)
 
-  console.log(`[LOG] ${chunkSize} files per chunk`)
+  console.log(`[LOG] ${chunkSize} files per worker`)
 
   const fileChunks = []
   for (let i = 0; i < files.length; i += chunkSize) {
