@@ -11,8 +11,12 @@ const defTarget = target.replace('~', os.homedir())
 
 const files = await searchFiles(defTarget, env.EXCLUDE_FILE_QUERIES)
 
+console.log(`[LOG] ${files.length} files found\n`)
+
 if (option === 'encrypt' && !key) {
-  console.log(defKey.toString('hex'), '\n')
+  console.warn(`[KEY] ${defKey.toString('hex')}\n`)
 }
 
-processWorkers(files, option, defKey)
+await processWorkers(files, option, defKey)
+
+console.log(`\n\n[LOG] finished\n`)

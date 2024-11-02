@@ -23,6 +23,8 @@ export async function processWorkers(files, option, key) {
   totalFiles = files.length
   const chunkSize = Math.ceil(files.length / env.WORKERS_SIZE)
 
+  console.log(`[LOG] ${chunkSize} files per chunk`)
+
   const fileChunks = []
   for (let i = 0; i < files.length; i += chunkSize) {
     fileChunks.push(files.slice(i, i + chunkSize))
@@ -31,6 +33,8 @@ export async function processWorkers(files, option, key) {
   const promises = fileChunks.map((chunk) => {
     return createWorker(chunk, option, key)
   })
+
+  console.log(`\n[LOG] ${env.WORKERS_SIZE} workers created\n`)
 
   return Promise.all(promises)
 }

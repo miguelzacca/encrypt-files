@@ -11,9 +11,7 @@ export async function searchFiles(target, excludeQueries = []) {
         if (excludeQueries.some((q) => file.name.includes(q))) {
           continue
         }
-
         const fullpath = path.join(dir, file.name)
-
         if (file.isDirectory()) {
           await deepSearch(fullpath)
           continue
